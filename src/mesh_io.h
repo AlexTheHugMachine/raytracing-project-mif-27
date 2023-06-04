@@ -53,7 +53,7 @@ bool read_positions( const char *filename, std::vector<Point>& positions );
 \code
     std::vector<int> indices;
     std::vector<Point> positions;
-    if(!read_positions("data/robot.obj", positions, indices))
+    if(!read_indexed_positions("data/robot.obj", positions, indices))
         return "erreur";
     
     // parcours les triangles indexes
@@ -74,7 +74,7 @@ on peut facilement recuperer directement les sommets du triangle numero id :
 \code
     std::vector<int> indices;
     std::vector<Point> positions;
-    if(!read_positions("data/robot.obj", positions, indices))
+    if(!read_indexed_positions("data/robot.obj", positions, indices))
         return "erreur";
     
     int id= ... ;
@@ -85,14 +85,14 @@ on peut facilement recuperer directement les sommets du triangle numero id :
 */
 bool read_indexed_positions( const char *filename, std::vector<Point>& positions, std::vector<int>& indices );
 
-/*! charge les matieres associees aux triangles d'un fichier .obj / wavefront. renvoie l'ensemble de matiere et l'indice de la matiere pour chaqe triangle.
+/*! charge les matieres associees aux triangles d'un fichier .obj / wavefront. renvoie l'ensemble de matieres et l'indice de la matiere pour chaqe triangle.
 
 \code
     #include "materials.h"
     
     Materials materials;
     std::vector<int> material_indices;   // indices des matieres
-    if(!read_materials(filename, materials, material_indices))
+    if(!read_materials("data/robot.obj", materials, material_indices))  //!! oui c'est le fichier .obj !!
         return "erreur";
         
     // recuperer la matiere du triangle numero id :
@@ -111,7 +111,7 @@ exemple plus complet, charge un objet, ses matieres et recupere la couleur de ch
     
     Materials materials;
     std::vector<int> material_indices;   // indices des matieres
-    if(!read_materials(filename, materials, material_indices))
+    if(!read_materials(data/robot.obj", materials, material_indices))
         return "erreur";
 
     // recuperer les sommets du triangle numero id
@@ -120,7 +120,7 @@ exemple plus complet, charge un objet, ses matieres et recupere la couleur de ch
     Point b= positions[ 3*id +1 ];
     Point c= positions[ 3*id +2 ];
     
-    // recuperer la matiere du triangle 
+    // recuperer la matiere du triangle numero id
     int material_id= material_indices[ id ];
     Material& material= materials( material_id );
     
@@ -130,7 +130,7 @@ exemple plus complet, charge un objet, ses matieres et recupere la couleur de ch
 */
 bool read_materials( const char *filename, Materials& materials, std::vector<int>& indices );
 
-/*! charge les images / textures referencees par les matieres d'un objet.
+/*! charge les images / textures referencees par les matieres d'un objet. 
 
 exemple :
 \code
@@ -168,7 +168,7 @@ struct MeshIOData
 
 /*! charge tous les attributs et les matieres. en une seule fois.
 equivalent a :
-    const char *filename= "...";
+    const char *filename= "... .obj";
     
     std::vector<Point> positions;
     std::vector<int> indices;
