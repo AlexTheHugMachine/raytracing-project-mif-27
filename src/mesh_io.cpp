@@ -360,6 +360,10 @@ bool read_materials( const char *filename, Materials& materials, std::vector<int
                     break;
             }
             
+            // force une matiere par defaut, si necessaire
+            if(material_id == -1)
+                material_id= materials.default_material_index();
+            
             // triangule la face
             for(unsigned v= 2; v +1 < wp.size(); v++)
                 // indice de la matiere de chaque triangle
@@ -513,7 +517,7 @@ MeshIOData read_meshio_data( const char *filename )
             }
             
             // force une matiere par defaut, si necessaire
-            if(material_id == -1 && data.materials.count() > 0)
+            if(material_id == -1)
                 material_id= data.materials.default_material_index();
             
             // triangule la face
