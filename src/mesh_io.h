@@ -34,7 +34,7 @@ exemple : charger un fichier .obj et parcourir tous les triangles
     }
 \endcode
 
-on peut facilement recuperer directement les sommets du triangle numero id : 
+on peut facilement recuperer les sommets du triangle numero id : 
 \code
     std::vector<Point> positions;
     if(!read_positions("data/robot.obj", positions))
@@ -48,8 +48,9 @@ on peut facilement recuperer directement les sommets du triangle numero id :
  */
 bool read_positions( const char *filename, std::vector<Point>& positions );
 
-/*! version indexee de read_positions(). un triangle est represente par 3 indices successifs.
+/*! version indexee de read_positions(). un triangle est represente par 3 indices successifs dans indices[].
 
+exemple : charger un fichier .obj et parcourir tous les triangles
 \code
     std::vector<int> indices;
     std::vector<Point> positions;
@@ -70,7 +71,7 @@ bool read_positions( const char *filename, std::vector<Point>& positions );
     }
 \endcode
 
-on peut facilement recuperer directement les sommets du triangle numero id : 
+on peut recuperer directement les sommets du triangle numero id : 
 \code
     std::vector<int> indices;
     std::vector<Point> positions;
@@ -78,21 +79,23 @@ on peut facilement recuperer directement les sommets du triangle numero id :
         return "erreur";
     
     int id= ... ;
-    Point a= positions[ indices[3*id] ];
-    Point b= positions[ indices[3*id +1] ];
-    Point c= positions[ indices[3*id +2] ];
+    Point a= positions[ indices[ 3*id ] ];
+    Point b= positions[ indices[ 3*id +1 ] ];
+    Point c= positions[ indices[ 3*id +2 ] ];
 \endcode
 */
 bool read_indexed_positions( const char *filename, std::vector<Point>& positions, std::vector<int>& indices );
 
-/*! charge les matieres associees aux triangles d'un fichier .obj / wavefront. renvoie l'ensemble de matieres et l'indice de la matiere pour chaqe triangle.
 
+/*! charge les matieres associees aux triangles d'un fichier .obj / wavefront. renvoie l'ensemble de matieres et l'indice de la matiere pour chaque triangle.
+
+exemple :
 \code
     #include "materials.h"
     
     Materials materials;
     std::vector<int> material_indices;   // indices des matieres
-    if(!read_materials("data/robot.obj", materials, material_indices))  //!! oui c'est le fichier .obj !!
+    if(!read_materials("data/robot.obj", materials, material_indices))  // !! oui c'est bien le fichier .obj !!
         return "erreur";
         
     // recuperer la matiere du triangle numero id :
@@ -143,7 +146,7 @@ exemple :
     
     Materials materials;
     std::vector<int> material_indices;   // indices des matieres
-    if(!read_materials(filename, materials, material_indices))
+    if(!read_materials("data/robot.obj", materials, material_indices))  // !! oui c'est bien le fichier .obj !!
         return "erreur";
         
     std::vector<Image> images;
@@ -167,7 +170,30 @@ struct MeshIOData
 };
 
 /*! charge tous les attributs et les matieres. en une seule fois.
-equivalent a :
+
+exemple : 
+\code
+    MeshIOData data= read_meshio_data( "data/robot.obj" );
+    if(data.positions.empty())
+        return "erreur";
+    
+    // recuperer les sommets du triangle d'indice id :
+    // triangle abc
+    Point a= data.positions[ data.indices[3*id] ];
+    Point b= data.positions[ data.indices[3*id+1] ];
+    Point c= data.positions[ data.indices[3*id+2] ];
+    
+    // et recuperer sa matiere / couleur
+    int material_id= data.material_indices[ id ];
+    Material& material= data.materials( material_id );
+    
+    // recuperer la couleur (de la matiere) du triangle
+    Color color= material.diffuse;    
+    ...    
+\endcode
+
+utiliser read_meshio_data() est equivalent a :
+\code
     const char *filename= "... .obj";
     
     std::vector<Point> positions;
@@ -180,12 +206,13 @@ equivalent a :
 
     std::vector<Image> images;
     read_images( filename, images );
+\endcode
 
-    mais toutes les infos chargees sont stockees dans une seule structure, cf MeshIOData, plus simple a manipuler.
+    mais toutes les infos sont chargees en seule fois, et sont stockees dans une seule structure, cf MeshIOData, plus simple a manipuler.
 */
 MeshIOData read_meshio_data( const char *filename );
 
-//! charge les images referencees par les matieres de l'objet.
+//! charge les images referencees par les matieres de l'objet. 
 bool read_images( MeshIOData& data );
 
 ///@}
