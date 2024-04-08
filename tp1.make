@@ -64,11 +64,12 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/color.o \
-	$(OBJDIR)/image_io.o \
-	$(OBJDIR)/mat.o \
 	$(OBJDIR)/vec.o \
-	$(OBJDIR)/tp2.o \
+	$(OBJDIR)/mat.o \
+	$(OBJDIR)/image_io.o \
+	$(OBJDIR)/color.o \
+	$(OBJDIR)/files.o \
+	$(OBJDIR)/mesh_io.o \
 	$(OBJDIR)/tp1.o \
 
 RESOURCES := \
@@ -130,19 +131,22 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/color.o: src/color.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/image_io.o: src/image_io.cpp
+$(OBJDIR)/vec.o: src/vec.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/mat.o: src/mat.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/vec.o: src/vec.cpp
+$(OBJDIR)/image_io.o: src/image_io.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/tp2.o: src/tp2.cpp
+$(OBJDIR)/color.o: src/color.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/files.o: src/files.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/mesh_io.o: src/mesh_io.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/tp1.o: projets/tp1.cpp

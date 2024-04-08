@@ -2,8 +2,9 @@ dofile "gkit.lua"
 
  -- description des projets		 
 projects = {
-	-- "tp1",
+	"tp1",
 	"tp2",
+    "tp3"
 }
 
 for i, name in ipairs(projects) do

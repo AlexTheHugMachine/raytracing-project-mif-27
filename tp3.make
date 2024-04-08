@@ -20,9 +20,9 @@ ifndef AR
 endif
 
 ifeq ($(config),debug)
-  OBJDIR     = obj/debug/tp2
+  OBJDIR     = obj/debug/tp3
   TARGETDIR  = bin
-  TARGET     = $(TARGETDIR)/tp2
+  TARGET     = $(TARGETDIR)/tp3
   DEFINES   += -DDEBUG
   INCLUDES  += -I. -Isrc
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
@@ -42,9 +42,9 @@ ifeq ($(config),debug)
 endif
 
 ifeq ($(config),release)
-  OBJDIR     = obj/release/tp2
+  OBJDIR     = obj/release/tp3
   TARGETDIR  = bin
-  TARGET     = $(TARGETDIR)/tp2
+  TARGET     = $(TARGETDIR)/tp3
   DEFINES   += 
   INCLUDES  += -I. -Isrc
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
@@ -70,7 +70,7 @@ OBJECTS := \
 	$(OBJDIR)/color.o \
 	$(OBJDIR)/files.o \
 	$(OBJDIR)/mesh_io.o \
-	$(OBJDIR)/tp2.o \
+	$(OBJDIR)/tp3.o \
 
 RESOURCES := \
 
@@ -88,7 +88,7 @@ all: $(TARGETDIR) $(OBJDIR) prebuild prelink $(TARGET)
 	@:
 
 $(TARGET): $(GCH) $(OBJECTS) $(LDDEPS) $(RESOURCES)
-	@echo Linking tp2
+	@echo Linking tp3
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -109,7 +109,7 @@ else
 endif
 
 clean:
-	@echo Cleaning tp2
+	@echo Cleaning tp3
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -149,7 +149,7 @@ $(OBJDIR)/files.o: src/files.cpp
 $(OBJDIR)/mesh_io.o: src/mesh_io.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/tp2.o: projets/tp2.cpp
+$(OBJDIR)/tp3.o: projets/tp3.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

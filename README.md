@@ -4,16 +4,21 @@ consultez la [doc](https://perso.univ-lyon1.fr/jean-claude.iehl/Public/educ/M1IM
 
 Projet effectué par : BONIS Alexis 11805132
 
-Dans le dossier "tp2_exos" vous trouverez les anciennes parties que j'ai précédemment effectué. J'ai un peu laissé ces fichiers à l'abandon, mais si vous voulez voir la fonction du zbuffer par exemple, qui se trouve dans le fichier "tp1_partie3.cpp" où on peut également voir le robot (sans les ombres).
+Dans ce projet, nous avons implémenté l'affichage d'un objet avec ses textures appliquées au bon endroit en utilisant la librairie OpenGL dans le TP1.
 
-Le vrai fichier final est "tp2.cpp" se trouvant dans le dossier "projets".
+Le TP2 consiste à afficher une scène détaillée en implémentant le Frustum Culling, nous permettant d'afficher uniquement les groupes de triangles visibles par la caméra. Nous avon également implémenté le système de Shadow Map qui correspond à une méthode d'affichage des ombres.
 
-Pour compiler le projet, pensez à faire cette commande : make -j4 config=release , notamment pour le robot (pour le fichier "tp2_partie3.cpp", car dans "tp2.cpp" je n'ai pas fait de BVH donc le chargement du robot sera tros long, même en mode release).
+Le TP3 correspond à l'application de la tachnique de l'éclairage direct en utilisant l'estimateur de Monte Carlo sur une scène simple.
 
-Pour executer faites simplement la commande ./bin/tp2 et l'image apparaitra sous le nom de "image.png" à la racine du projet.
+Pour compiler le projet, pensez à faire cette commande : make -j4 config=release tp1.cpp (pour compiler le tp1 par exemple)
+
+Pour executer faites simplement la commande ./bin/tp1 et l'image apparaitra sous le nom de "image.png" à la racine du projet.
 
 Voici quelques images résultats :
 
-![image](images/scene.png)
+TP2:
+![image](images/shadow_map.png)
+![image](images/result_shadow_map.png)
 
-![image](images/robot.png)
+TP3 :
+![image](images/render.png)
