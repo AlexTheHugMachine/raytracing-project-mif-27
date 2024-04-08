@@ -6,17 +6,22 @@ ifndef config
 endif
 export config
 
-PROJECTS := tp2
+PROJECTS := tp1 tp2
 
 .PHONY: all clean help $(PROJECTS)
 
 all: $(PROJECTS)
+
+tp1: 
+	@echo "==== Building tp1 ($(config)) ===="
+	@${MAKE} --no-print-directory -C . -f tp1.make
 
 tp2: 
 	@echo "==== Building tp2 ($(config)) ===="
 	@${MAKE} --no-print-directory -C . -f tp2.make
 
 clean:
+	@${MAKE} --no-print-directory -C . -f tp1.make clean
 	@${MAKE} --no-print-directory -C . -f tp2.make clean
 
 help:
@@ -29,6 +34,7 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
+	@echo "   tp1"
 	@echo "   tp2"
 	@echo ""
 	@echo "For more information, see http://industriousone.com/premake/quick-start"

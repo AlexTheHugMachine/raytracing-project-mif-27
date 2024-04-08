@@ -4,16 +4,17 @@ consultez la [doc](https://perso.univ-lyon1.fr/jean-claude.iehl/Public/educ/M1IM
 
 Projet effectué par : BONIS Alexis 11805132
 
-Dans le dossier "tp2_exos" vous trouverez les anciennes parties que j'ai précédemment effectué. J'ai un peu laissé ces fichiers à l'abandon, mais si vous voulez voir la fonction du zbuffer par exemple, qui se trouve dans le fichier "tp1_partie3.cpp" où on peut également voir le robot (sans les ombres).
+Ce projet contient de la programmation de rendu sur GPU à l'aide de shader en glsl.
+La méthode du MultiDrawIndirect d'OpenGL a été utilisée ainsi que le Frustum Culling pour afficher les objets.
 
-Le vrai fichier final est "tp2.cpp" se trouvant dans le dossier "projets".
+Pour compiler le projet, pensez à faire cette commande : make -j4 config=release tp2
 
-Pour compiler le projet, pensez à faire cette commande : make -j4 config=release , notamment pour le robot (pour le fichier "tp2_partie3.cpp", car dans "tp2.cpp" je n'ai pas fait de BVH donc le chargement du robot sera tros long, même en mode release).
-
-Pour executer faites simplement la commande ./bin/tp2 et l'image apparaitra sous le nom de "image.png" à la racine du projet.
+Pour executer faites simplement la commande ./bin/tp2.
 
 Voici quelques images résultats :
 
-![image](images/scene.png)
+![image](images/Capture_Zombie1.png)
 
-![image](images/robot.png)
+![image](images/Capture_Zombie2.png)
+
+![image](images/Capture_Zombie3.png)

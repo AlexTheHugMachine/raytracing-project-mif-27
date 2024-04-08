@@ -1,27 +1,101 @@
 
-#include "image.h"
-#include "image_io.h"
+//! \file tuto_compute_buffer.cpp compute shader + buffers
 
+#include <vector>
+
+#include "app.h"
+#include "program.h"
+#include "uniforms.h"
+
+struct ComputeBuffer : public App
+{
+    ComputeBuffer( ) : App(1280, 768, 4,3) {}
+    
+    int init( )
+    {
+        m_program= read_program("src/shader/compute_buffer.glsl");
+        program_print_errors(m_program);
+        
+        // initialise un tableau de valeurs
+        m_data= std::vector<int>(1024);
+        
+        // cree les buffers pour les parametres du shader
+        glGenBuffers(1, &m_gpu_buffer1);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_gpu_buffer1);
+        glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(int) * m_data.size(), m_data.data(), GL_STATIC_COPY);
+        // ou : 
+        // glBufferStorage(GL_SHADER_STORAGE_BUFFER, sizeof(int) * data.size(), data.data(), 0);
+        
+        // buffer resultat, meme taille, mais pas de donnees...
+        glGenBuffers(1, &m_gpu_buffer2);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_gpu_buffer2);
+        glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(int) * m_data.size(), nullptr, GL_STATIC_COPY);
+        // ou : 
+        // glBufferStorage(GL_SHADER_STORAGE_BUFFER, sizeof(int) * data.size(), nullptr, 0);
+        
+        return 0;
+    }
+    
+    int quit( )
+    {
+        release_program(m_program);
+        glDeleteBuffers(1, &m_gpu_buffer1);
+        glDeleteBuffers(1, &m_gpu_buffer2);
+        
+        return 0;
+    }
+    
+    int render( )
+    {
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_gpu_buffer1);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_gpu_buffer2);
+        
+        // execute les shaders
+        glUseProgram(m_program);
+        
+        // recupere le nombre de threads declare par le shader
+        int threads[3]= {};
+        glGetProgramiv(m_program, GL_COMPUTE_WORK_GROUP_SIZE, threads);
+        
+        program_uniform(m_program, "number", 10);
+        program_uniform(m_program, "v", 11);
+        
+        int n= m_data.size() / threads[0];
+        // nombre de groupes de threads, arrondi...
+        if(m_data.size() % threads[0])
+            n++;
+        // oui on peut calculer ca de maniere plus directe... 
+        // ou utiliser directement 256, comme dans le shader...
+        
+        // go !
+        glDispatchCompute(n, 1, 1);
+        
+        // attendre que les resultats soient disponibles
+        glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
+        
+        // relire le resultat
+        std::vector<int> tmp(1024);
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_gpu_buffer2);
+        glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(int) * tmp.size(), tmp.data());
+        
+        for(unsigned i= 0; i < tmp.size(); i++)
+            printf("%d ", tmp[i]);
+        printf("\n");
+        
+        return 0;
+    }
+    
+    std::vector<int> m_data;
+    GLuint m_gpu_buffer1;
+    GLuint m_gpu_buffer2;
+    GLuint m_read_buffer;
+    GLuint m_program;
+};
 
 int main( )
 {
-    Image image(1024, 512);
-    
-    // exemple : parcours tous les pixels de l'image
-    for(unsigned i= 0; i < image.size(); i++)
-        image(i)= Color(0.5);
-    
-    // exemple : parcours tous les pixels de l'image
-    for(int py= 0; py < image.height(); py++)
-    for(int px= 0; px < image.width(); px++)
-        // damier 8x8...
-        if((px & 8) ^ (py & 8))
-            image(px, py)= Color(1);
-    
-    // enregistre l'image, de plusieurs manieres...
-    write_image_png(image, "image.png");
-    write_image_bmp(image, "image.bmp");
-    write_image_hdr(image, "image.hdr");
+    ComputeBuffer app;
+    app.run();
     
     return 0;
 }
