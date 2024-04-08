@@ -10,7 +10,9 @@ Le TP2 consiste à afficher une scène détaillée en implémentant le Frustum C
 
 Le TP3 correspond à l'application de la tachnique de l'éclairage direct en utilisant l'estimateur de Monte Carlo sur une scène simple.
 
-Pour compiler le projet, pensez à faire cette commande : make -j4 config=release tp1.cpp (pour compiler le tp1 par exemple)
+Les fichiers source du projet se trouvent dans le dossier projets/
+
+Pour compiler le projet, pensez à faire cette commande : make -j4 config=release tp1 (pour compiler le tp1 par exemple)
 
 Pour executer faites simplement la commande ./bin/tp1 et l'image apparaitra sous le nom de "image.png" à la racine du projet.
 
