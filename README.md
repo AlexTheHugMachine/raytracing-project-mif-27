@@ -4,6 +4,12 @@ consultez la [doc](https://perso.univ-lyon1.fr/jean-claude.iehl/Public/educ/M1IM
 
 Projet effectué par : BONIS Alexis 11805132
 
+<h2>Branches</h2>
+
+La branche "main" contient le travail sur le raytracing effectué lors de la première année de master, la branche "raytracingmontecarlo-shadowmap" contient le travail effectué pour le raytracing utilisant l'estimateur de Monte Carlo ainsi que les Shadow Maps en deuxième année de master, et enfin la branche "multidrawindirect" contient l'implémentation de la méthode MultiDrawIndirect d'OpenGL sur GPU  également éffectué en deuxième année de master.
+
+<h2>Travail effectué</h2>
+
 Ce projet contient de la programmation de rendu sur GPU à l'aide de shader en glsl.
 La méthode du MultiDrawIndirect d'OpenGL a été utilisée ainsi que le Frustum Culling pour afficher les objets.
 
