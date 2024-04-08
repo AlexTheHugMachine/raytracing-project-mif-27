@@ -7,6 +7,8 @@ Projet effectué par : BONIS Alexis 11805132
 Ce projet contient de la programmation de rendu sur GPU à l'aide de shader en glsl.
 La méthode du MultiDrawIndirect d'OpenGL a été utilisée ainsi que le Frustum Culling pour afficher les objets.
 
+Le fichier source du projet se trouve dans projets/tp2.cpp
+
 Pour compiler le projet, pensez à faire cette commande : make -j4 config=release tp2
 
 Pour executer faites simplement la commande ./bin/tp2.
